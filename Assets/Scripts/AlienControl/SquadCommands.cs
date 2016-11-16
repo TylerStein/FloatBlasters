@@ -69,7 +69,7 @@ public class SquadCommander {
 
 public class PersuitSquad : SquadCommander
 {
-    const int engageDist = 10;
+    const int engageDist = 20;
 
     bool isRelocating;
 
@@ -124,7 +124,7 @@ public class PersuitSquad : SquadCommander
         {
             isRelocating = true;
             AttackTarget(mainTarget.position);
-            Vector2 finalRelocation = system.getRandomLocationNearTarget(avg, engageDist * 3, engageDist * 5);
+            Vector2 finalRelocation = system.getRandomLocationNearTarget(avg, engageDist * 2, engageDist * 3);
             relocationTarget = finalRelocation;
         }
 

@@ -10,6 +10,8 @@ public class AlienControl : MonoBehaviour {
     public Transform player;
     public AlienShip ship;
 
+    public Animator animator;
+
     public float maxTurnAngle = 20;
     public float forwardThrusterPower = 1;
     public float sideThrusterPower = 0.25f;
@@ -41,6 +43,9 @@ public class AlienControl : MonoBehaviour {
 
         transform = gameObject.transform;
 
+        animator = GetComponent<Animator>();
+        animator.SetBool("bThrust", true);
+
         //If no ship, default to interceptor
         if (ship == null) { ship = new Interceptor(this); }
 
@@ -48,7 +53,7 @@ public class AlienControl : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-       
+
     }
 
     public void setShipType(ShipType type)
@@ -133,9 +138,9 @@ public class AlienShip
     public Sprite shipSprite;
     public AlienControl control;
 
-    public AlienShip(Vector2 src, AlienControl ctrl) { addWeaponSource(src); control = ctrl; }
-    public AlienShip(Vector2[] src, AlienControl ctrl) {setWeaponSources(src); control = ctrl; }
-    public AlienShip(AlienControl ctrl) { control = ctrl; }
+    public AlienShip(Vector2 src, AlienControl ctrl) { addWeaponSource(src); control = ctrl; control.gameObject.layer = ResourceManager.instance.layer_aliens; }
+    public AlienShip(Vector2[] src, AlienControl ctrl) {setWeaponSources(src); control = ctrl; control.gameObject.layer = ResourceManager.instance.layer_aliens; }
+    public AlienShip(AlienControl ctrl) { control = ctrl; control.gameObject.layer = ResourceManager.instance.layer_aliens; }
     public virtual void FireWeapon(Vector2 target) { }
 
 
@@ -163,9 +168,9 @@ public class AlienShip
 
 public class Interceptor : AlienShip
 {
-    const float weaponForce = 500;
+    const float weaponForce = 0.1f;
     const float weaponDamage = 15;
-    const float weaponRange = 25;
+    const float weaponRange = 35;
 
     Material laserMat;
 
@@ -187,15 +192,16 @@ public class Interceptor : AlienShip
             //Figure out the weapon's firing direction
             Vector2 dir = control.getUp();
 
-            //Set up the lazer effect
-            LineRenderer tmpRender = setupLaserEffect(weaponSource, dir * weaponRange);
-
-            //Do a 2d raycast to check if we hit the target with this lazer
-            RaycastHit2D hit = Physics2D.Raycast(weaponSource, dir, 25, 0, -1, 1);
+            //Do a 2d raycast to check if we hit the target with this lazer (ignore aliens)
+            RaycastHit2D hit = Physics2D.Raycast(weaponSource, dir, weaponRange);
+            
             if ((hit.collider != null))
             {
-                tmpRender.SetPosition(1, new Vector3(hit.point.x, hit.point.y, 0));
-                if ((hit.collider.tag == "Player"))
+                Debug.Log("Hit name: " + hit.collider.gameObject.name);
+                //Set up the lazer effect (hit target)
+                LineRenderer tmpRender = setupLaserEffect(weaponSource, hit.point);
+
+                if (hit.rigidbody.gameObject.tag == "Player")
                 {
                     Debug.Log("Hit player");
                     //Hit the player, apply impact force and damage
@@ -205,6 +211,9 @@ public class Interceptor : AlienShip
                     force *= weaponForce;
                     plyr.takeAttack(force, impactPoint, weaponDamage);
                 }
+            } else {
+                //Set up the lazer effect (no hit)
+                LineRenderer tmpRender = setupLaserEffect(weaponSource, shipPos + dir * weaponRange);
             }
         }
     }

@@ -9,6 +9,9 @@ public class PlayerControl : MonoBehaviour {
     public float forwardThrusterPower = 1;
     public float sideThrusterPower = 0.25f;
 
+    public Animator animator;
+    public ParticleSystem particles;
+
     public Vector2 leftThrusterPos;
     public Vector2 rightThrusterPos;
 
@@ -17,6 +20,11 @@ public class PlayerControl : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody2D>();
         Sprite playerSprite = GetComponent<SpriteRenderer>().sprite;
         Vector2 shipBounds = new Vector2(playerSprite.bounds.extents.x, playerSprite.bounds.extents.y);
+        animator = GetComponent<Animator>();
+
+        particles = GetComponentInChildren<ParticleSystem>();
+
+        gameObject.layer = ResourceManager.instance.layer_players;
 
         leftThrusterPos = new Vector2(shipBounds.x / 2, 0);
         rightThrusterPos = new Vector2(shipBounds.x, 0);
@@ -26,6 +34,15 @@ public class PlayerControl : MonoBehaviour {
 	void Update () {
         float yInput = Input.GetAxis("Vertical");
         float xInput = Input.GetAxis("Horizontal");
+
+        if(yInput > 0 || xInput != 0) {
+            animator.SetBool("bThrust", true);
+            particles.enableEmission = true;
+        }
+        else {
+            animator.SetBool("bThrust", false);
+            particles.enableEmission = false;
+        }
 
         rigidbody.AddRelativeForce(Vector2.up * yInput * forwardThrusterPower);
         rigidbody.AddTorque(-xInput * sideThrusterPower);
