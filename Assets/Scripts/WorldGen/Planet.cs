@@ -49,7 +49,7 @@ public class Planet : MonoBehaviour{
         SpriteRenderer blurRenderer = blurObj.AddComponent<SpriteRenderer>();
         blurRenderer.sprite = blurSprite;
 
-       
+        gameObject.layer = ResourceManager.instance.layer_planets;
 
         float spriteSize = sprite.bounds.size.x * planetScale;
 

@@ -15,13 +15,16 @@ public class AlienMaster {
     //Squads in play
     private SquadCommander[] liveSquads;
 
+    //Alien generator
+    private AlienFactory alienFactory;
+
     public AlienMaster(SolarSystem sys, GameManager mng) { system = sys; manager = mng; }
 
     // Use this for initialization
     public void Start () {
         //Retreive player1's PlayerControl script
         player1 = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-
+        alienFactory = new AlienFactory(system);
         spawnSquad(SquadType.PERSUIT, 3);
     }
 
@@ -43,8 +46,7 @@ public class AlienMaster {
         AlienControl[] aliens = new AlienControl[count];
         for(int i = 0; i < count; ++i)
         {
-            GameObject alien = GameObject.Instantiate(ResourceManager.instance.prefab_alien_interceptor, system.getRandomLocationNearTarget(player1.transform.position, 20, 50), Quaternion.identity, null) as GameObject;
-            aliens[i] = alien.GetComponent<AlienControl>();
+            aliens[i] = alienFactory.spawnAlien(ShipType.Interceptor, player1.transform);
         }
 
 
@@ -61,4 +63,32 @@ public class AlienMaster {
         }
         
 	}
+}
+
+public class AlienFactory{
+    public SolarSystem sys;
+
+    public AlienFactory(SolarSystem system)
+    {
+       sys = system;
+    }
+
+    public AlienControl spawnAlien(ShipType type, Transform targetLocation)
+    {
+        AlienControl ctrl;
+        GameObject alien;
+
+        //Only one type of ship for now
+        switch (type)
+        {
+            //Create an interceptor
+            case ShipType.Interceptor:
+                alien = Object.Instantiate(ResourceManager.instance.prefab_alien_interceptor, sys.getRandomLocationNearTarget(targetLocation.position, 20, 50), Quaternion.identity, null) as GameObject;
+                ctrl = alien.GetComponent<AlienControl>();
+                return ctrl;
+        }
+
+        //Could not create ship
+        return null;
+    }
 }

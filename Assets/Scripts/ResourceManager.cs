@@ -16,6 +16,8 @@ public class ResourceManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+
+        genMasks();
     }
 
     //Materials to store
@@ -23,5 +25,17 @@ public class ResourceManager : MonoBehaviour {
 
     //Prefabs to store
     public GameObject prefab_alien_interceptor;
+
+    void genMasks()
+    {
+        layer_aliens = LayerMask.NameToLayer("Aliens");
+        layer_players = LayerMask.NameToLayer("Players");
+        layer_planets = LayerMask.NameToLayer("Planets");
+    }
+
+    //Layer Masks
+    public int layer_aliens;
+    public int layer_players;
+    public int layer_planets;
 
 }
