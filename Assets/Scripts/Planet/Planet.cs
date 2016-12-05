@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 public enum PlanetType { SUN, HOT, NORM, COLD, GAS };
 
 [System.Serializable]

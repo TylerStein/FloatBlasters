@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 98a3cd5eadd9d4c5ea971a9368518493
+guid: 8954c29e61566364a81ab31063fd620e
 timeCreated: 1460946677
 licenseType: Free
 TextureImporter:
@@ -56,11 +56,14 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 10
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: FuelPad_0
+    - serializedVersion: 2
+      name: FuelPad_0
       rect:
         serializedVersion: 2
         x: 0
@@ -71,7 +74,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_1
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_1
       rect:
         serializedVersion: 2
         x: 64
@@ -82,7 +87,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_2
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_2
       rect:
         serializedVersion: 2
         x: 128
@@ -93,7 +100,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_3
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_3
       rect:
         serializedVersion: 2
         x: 192
@@ -104,7 +113,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_4
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_4
       rect:
         serializedVersion: 2
         x: 256
@@ -115,7 +126,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_5
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_5
       rect:
         serializedVersion: 2
         x: 320
@@ -126,7 +139,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_6
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_6
       rect:
         serializedVersion: 2
         x: 384
@@ -137,7 +152,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_7
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_7
       rect:
         serializedVersion: 2
         x: 448
@@ -148,7 +165,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_8
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_8
       rect:
         serializedVersion: 2
         x: 512
@@ -159,7 +178,9 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: FuelPad_9
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: FuelPad_9
       rect:
         serializedVersion: 2
         x: 576
@@ -170,6 +191,7 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      tessellationDetail: -1
     outline: []
   spritePackingTag: 
   userData: 

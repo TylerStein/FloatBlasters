@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-enum SquadType {Persuit, Drone, Planet}
+enum SquadType {PERSUIT, DRONE, PLANET}
 public class AlienSquad : IAlienObservable {
     IAlienObserver observer;
     SquadType squadType;

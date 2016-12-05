@@ -15,23 +15,14 @@ public class Starfield : MonoBehaviour
         starfield = GetComponent<MeshRenderer>().material;
         trns = transform;
 
-        Vector2 screenBounds = new Vector2(Screen.width, Screen.height);
-        float size = Camera.main.orthographicSize / 10;
-
-        //Approximate filling the screen and scale accordingly
-        Vector3 fillSize = new Vector3(screenBounds.x / size, screenBounds.y / size, 1);
-        transform.localScale = fillSize;
+        resize();
     }
 
     //Function to resize the quad, useful for screen resizing
     public void resize()
     {
-        Vector2 screenBounds = new Vector2(Screen.width, Screen.height);
-        float size = Camera.main.orthographicSize / 100;
-
-        Vector3 fillSize = new Vector3(screenBounds.x / size, screenBounds.y / size, 1);
-
-        transform.localScale = fillSize;
+        float h = Mathf.Tan(Camera.main.orthographicSize * Mathf.Deg2Rad * 0.5f) * 30f;
+        transform.localScale = new Vector3(h * Camera.main.aspect, 1, h);
     }
 
     //Take a value to move by (divided by slow amount to figure out final scroll speed)

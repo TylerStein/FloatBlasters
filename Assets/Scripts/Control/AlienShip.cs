@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 enum ShipType { INTERCEPTOR, COMMANDER, BOMBER }
 public class AlienShip : MonoBehaviour {
 
