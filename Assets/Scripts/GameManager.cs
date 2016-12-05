@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
             //Destroy this instance, for there can only be one!
             Destroy(gameObject);
         }
-
-        Start();
     }
 
     void Start()
@@ -53,6 +51,11 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("System size must be greater than 0!");
         }
 
+        //Clean up singletons in case this is not first run
+
+        SolarSystemManager.Instance.Cleanup();
+        AlienManager.Instance.Cleanup();
+
         //Grab the system manager
         systemManager = SolarSystemManager.Instance;
 
@@ -61,9 +64,10 @@ public class GameManager : MonoBehaviour
 
         //Grab and initialize the player manager
         playerManager = PlayerManager.Instance;
-        playerManager.Init(false);
+        playerManager.Init();
+        bMultiplayer = playerManager.isMultiplayer;
 
-        Instantiate(ResourceFinder.Instance.GetPrefab("StarCamera"));
+        Instantiate(ResourceFinder.Instance.GetPrefab("StartCamera"));
 
         //Fill out the settings with editor incoming info & the created dictionary
         settings = new SystemSettings(planetCount, systemSize, potentialPlanets);
@@ -82,5 +86,10 @@ public class GameManager : MonoBehaviour
 
         //Call the alien manager's update to move AI
         alienManager.Update();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }

@@ -24,11 +24,11 @@ public class WorldGenerator {
     {
         Dictionary<GameObject, Planet> res = new Dictionary<GameObject, Planet>();
 
-        GameObject systemHolder = Object.Instantiate(new GameObject("SolarSystem")) as GameObject;
+        GameObject systemHolder = new GameObject("SolarSystem");
         systemHolder.tag = "SolarSystem";
 
         float average_distance = s.systemSize / s.planetCount;
-        float max_difference = average_distance / 2;
+        float max_difference = average_distance / 4;
         float total_distance = average_distance;
 
         GameObject sun = generateSun(s);
@@ -37,7 +37,8 @@ public class WorldGenerator {
         //Planet count minus the sun
         for(int i = 0; i < s.planetCount - 1; ++i)
         {
-            total_distance += rngMod(total_distance, max_difference);
+            float finalRng = average_distance + rngMod(-max_difference, max_difference);
+            total_distance += finalRng;
             GameObject newPlanet = generatePlanet(s, total_distance);
             res.Add(newPlanet, newPlanet.GetComponent<Planet>());
         }
@@ -92,7 +93,7 @@ public class WorldGenerator {
         if (validPlanets.Count > 1)
         {
             //Choose from the list of valid planets
-            int rnd = Random.Range(1, validPlanets.Count);
+            int rnd = Random.Range(0, validPlanets.Count);
             finalPlanet = validPlanets[rnd];
         }
         else if (validPlanets.Count == 1)
@@ -117,7 +118,7 @@ public class WorldGenerator {
         Planet planetScript = result.AddComponent<Planet>();
 
         //Generate an orbit speed, decreases with further out planets
-        float oSpeed = settings.systemSize / planetDistance * 0.2f;
+        float oSpeed = settings.systemSize / planetDistance * 0.3f;
 
 
 

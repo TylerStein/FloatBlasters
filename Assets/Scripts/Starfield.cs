@@ -21,8 +21,10 @@ public class Starfield : MonoBehaviour
     //Function to resize the quad, useful for screen resizing
     public void resize()
     {
-        float h = Mathf.Tan(Camera.main.orthographicSize * Mathf.Deg2Rad * 0.5f) * 30f;
-        transform.localScale = new Vector3(h * Camera.main.aspect, 1, h);
+        float height = 2.0f + Mathf.Tan(Camera.main.fieldOfView * Mathf.Deg2Rad) * 80;
+        float width = height * Camera.main.aspect;
+
+        transform.localScale = new Vector3(width, height);
     }
 
     //Take a value to move by (divided by slow amount to figure out final scroll speed)
@@ -39,19 +41,6 @@ public class Starfield : MonoBehaviour
         }
 
         starfield.mainTextureOffset = starOffset;
-    }
-
-    //Set the scale of the starfield
-    public void scaleField(float scale)
-    {
-        Vector2 newScale = Vector2.one * scale;
-        starfield.mainTextureScale = newScale;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
 

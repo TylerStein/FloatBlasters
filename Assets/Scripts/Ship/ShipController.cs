@@ -22,7 +22,7 @@ public class ShipController : MonoBehaviour
     Weapon weapon;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         transform = gameObject.transform;
         collider2D = GetComponent<Collider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -36,11 +36,11 @@ public class ShipController : MonoBehaviour
     public void steerTowards(Vector2 dir)
     {
         //* thrusterForce
-        rigidbody.AddForce(transform.up * 10, ForceMode2D.Force);
+        rigidbody.AddForce(transform.up * Time.deltaTime * 10, ForceMode2D.Force);
 
         float angleTo = Vector2.Angle(transform.up, dir);
 
-        rigidbody.AddForce(transform.right * 5 * angleTo, ForceMode2D.Force);
+        rigidbody.AddForce(transform.right * 5 * angleTo * Time.deltaTime, ForceMode2D.Force);
     }
 
     public void fireWeapon(Vector2 target)

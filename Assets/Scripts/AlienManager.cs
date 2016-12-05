@@ -31,4 +31,9 @@ public class AlienManager {
     {
 
     }
+
+    public void Cleanup()
+    {
+        instance = null;
+    }
 }

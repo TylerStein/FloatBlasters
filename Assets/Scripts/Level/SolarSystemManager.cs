@@ -37,10 +37,6 @@ public class SolarSystemManager {
         WorldGenerator generator = new WorldGenerator();
         settings = s;
         planetDictionary = generator.genPlanets(s);
-        foreach(GameObject planet in planetDictionary.Keys)
-        {
-            Object.Instantiate(planet);
-        }
     }
 
     //Update the orbit of planets and get forces to apply to rigidbodies in the scene
@@ -52,32 +48,35 @@ public class SolarSystemManager {
 
             Planet plnt = planetDictionary[g];
             plnt.updateOrbit(Time.deltaTime);
-            for (int i = 0; i < affectedBodies.Length; ++i)
+            if (affectedBodies != null)
             {
-
-                //Get needed data for comparison
-                Vector2 planetPos = plnt.getWorldPosition();
-                float planetRadius = plnt.getRadius();
-                float planetAtmosphere = plnt.getAtmosphereRange();
-                Vector2 bodyPos = affectedBodies[i].position;
-
-                //Check if body is within atmosphere distance
-                Vector2 diff = planetPos - bodyPos;
-                float fDiff = diff.magnitude;
-                //Debug.Log("Diff: " + fDiff + " / " + (planetRadius + planetAtmosphere));
-                if (fDiff <= (planetRadius + planetAtmosphere))
+                for (int i = 0; i < affectedBodies.Length; ++i)
                 {
-                    //Body is within gravity range
-                    Rigidbody2D body = affectedBodies[i].GetComponent<Rigidbody2D>();
-                    Vector2 forceDir = diff.normalized;
 
-                    Debug.DrawLine(planetPos, bodyPos, Color.yellow);
+                    //Get needed data for comparison
+                    Vector2 planetPos = plnt.getWorldPosition();
+                    float planetRadius = plnt.getRadius();
+                    float planetAtmosphere = plnt.getAtmosphereRange();
+                    Vector2 bodyPos = affectedBodies[i].position;
 
-                    //Calculate gravity force
-                    float finalGravForce = plnt.getGravityForce() / (fDiff / planetRadius);
+                    //Check if body is within atmosphere distance
+                    Vector2 diff = planetPos - bodyPos;
+                    float fDiff = diff.magnitude;
+                    //Debug.Log("Diff: " + fDiff + " / " + (planetRadius + planetAtmosphere));
+                    if (fDiff <= (planetRadius + planetAtmosphere))
+                    {
+                        //Body is within gravity range
+                        Rigidbody2D body = affectedBodies[i].GetComponent<Rigidbody2D>();
+                        Vector2 forceDir = diff.normalized;
 
-                    //Apply the gravity force
-                    body.AddForce(forceDir * finalGravForce, ForceMode2D.Force);
+                        Debug.DrawLine(planetPos, bodyPos, Color.yellow);
+
+                        //Calculate gravity force
+                        float finalGravForce = plnt.getGravityForce() / (fDiff / planetRadius);
+
+                        //Apply the gravity force
+                        body.AddForce(forceDir * finalGravForce, ForceMode2D.Force);
+                    }
                 }
             }
         }
@@ -92,6 +91,7 @@ public class SolarSystemManager {
     //Add a rigidbody to be affected by planet gravity
     public void addAffectedBody(Transform body)
     {
+        if(affectedBodies == null) { affectedBodies = new Transform[0]; }
         Transform[] final = new Transform[affectedBodies.Length + 1];
         for (int i = 0; i < affectedBodies.Length; ++i)
         {
@@ -136,5 +136,10 @@ public class SolarSystemManager {
         } while (!valid);
 
         return new Vector3(res.x, res.y, 0);
+    }
+
+    public void Cleanup()
+    {
+        instance = null;
     }
 }

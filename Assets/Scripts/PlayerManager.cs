@@ -2,7 +2,7 @@
 
 public class PlayerManager {
 
-    bool isMultiplayer;
+    public bool isMultiplayer;
     GameObject[] players;
 
     private static PlayerManager instance;
@@ -21,8 +21,7 @@ public class PlayerManager {
     }
 
     //Initialize the players
-    public void Init(bool multiplayer){
-        isMultiplayer = multiplayer;
+    public void Init(){
         if (isMultiplayer)
         {
             spawnPlayers(2);
@@ -37,7 +36,8 @@ public class PlayerManager {
         players = new GameObject[count];
         for(int i = 0; i < count; ++i)
         {
-            players[i] = Object.Instantiate(ResourceFinder.Instance.GetPrefab("Player")) as GameObject;
+            players[i] = Object.Instantiate(ResourceFinder.Instance.GetPrefab("Player"), new Vector3(0, 100, 0), Quaternion.identity) as GameObject;
+            SolarSystemManager.Instance.addAffectedBody(players[i].transform);
         }
     }
 }

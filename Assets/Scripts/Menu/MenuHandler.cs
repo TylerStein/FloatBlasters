@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour {
 
@@ -24,18 +24,20 @@ public class MenuHandler : MonoBehaviour {
         earthSprite.Rotate(Vector3.forward, Time.deltaTime * rotRate);
     }
 
-    public void StartSinglePlayerGame()
+    public void StartMultiplayer()
     {
-
+        PlayerManager.Instance.isMultiplayer = true;
+        SceneManager.LoadScene(1);
     }
 
-    public void StartMultiPlayerGame()
+    public void StartSingleplayer()
     {
-
+        PlayerManager.Instance.isMultiplayer = false;
+        SceneManager.LoadScene(1);
     }
 
     public void Quit()
     {
-        
+        Application.Quit();
     }
 }

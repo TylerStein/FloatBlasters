@@ -42,13 +42,11 @@ public struct PlanetInfo
         }
 
         Debug.Log("Attempted to find planet in list, none with searchtype found!");
-        return new PlanetInfo(null, null, PlanetType.NORM, 0, 1, 0, 1);
+        return new PlanetInfo(null, null, PlanetType.NORM, 1, 1, 0, 1);
     }
 }
 
 public class Planet : MonoBehaviour {
-    private List<Rigidbody2D> nearbyBodies;
-
     PlanetInfo planetInfo;
 
     float orbitProgress;
@@ -61,7 +59,7 @@ public class Planet : MonoBehaviour {
 
     Vector2 worldPosition;
 
-    new Collider2D collider;
+    new CircleCollider2D collider;
 
     //Sets the values for the planet
     public void Setup(PlanetInfo planetInfo, float orbitRate, float distanceFromSun)
@@ -69,12 +67,14 @@ public class Planet : MonoBehaviour {
         this.planetInfo = planetInfo;
         this.distanceFromSun = distanceFromSun;
         orbitProgress = Random.Range(0, 360);
+        this.orbitRate = orbitRate;
 
         collider = gameObject.AddComponent<CircleCollider2D>() as CircleCollider2D;
         SpriteRenderer tmpRenderer = gameObject.AddComponent<SpriteRenderer>();
         tmpRenderer.sprite = planetInfo.planetSprite;
 
-        GameObject blurObj = Instantiate(new GameObject("Blur_" + planetInfo.planetSprite.name), this.transform, false) as GameObject;
+        GameObject blurObj = new GameObject("Blur_" + planetInfo.planetSprite.name);
+        blurObj.transform.parent = this.transform;
         SpriteRenderer blurRenderer = blurObj.AddComponent<SpriteRenderer>();
         blurRenderer.sprite = planetInfo.blurSprite;
 
@@ -83,7 +83,7 @@ public class Planet : MonoBehaviour {
         //TODO: Set scale
         this.transform.localScale = new Vector3(planetInfo.scale, planetInfo.scale, planetInfo.scale);
         radius = spriteSize / 2;
-        //collider.radius = radius;
+        collider.radius = radius;
 
         atmosphereRange = spriteSize * planetInfo.massMultiplier;
         gravityForce = radius / 20 * planetInfo.massMultiplier;
@@ -106,14 +106,11 @@ public class Planet : MonoBehaviour {
                 orbitProgress = overdraft;
             }
 
-            float progressRad = Mathf.Deg2Rad * orbitProgress;
-
-            worldPosition.x = Mathf.Sin(progressRad) * distanceFromSun;
-            worldPosition.y = Mathf.Cos(progressRad) * distanceFromSun;
+            worldPosition.x = Mathf.Sin(orbitProgress * Mathf.Deg2Rad) * distanceFromSun;
+            worldPosition.y = Mathf.Cos(orbitProgress * Mathf.Deg2Rad) * distanceFromSun;
 
             transform.position = worldPosition;
         }
-
 
         transform.Rotate(Vector3.forward, rotator * deltaTime);
     }
