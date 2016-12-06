@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 120bb9a4add98bc4ca5e1a5f18577f3c
-timeCreated: 1479924026
+timeCreated: 1480992096
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - laserMaterial: {fileID: 2100000, guid: 59b8d33534d033a4cb9c757ec16577bc, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

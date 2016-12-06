@@ -6,7 +6,7 @@ enum ShipType { INTERCEPTOR, COMMANDER, BOMBER }
 public class AlienShip : MonoBehaviour {
 
     ShipType shipType;
-    ShipController ship;
+    public ShipController ship;
 
     new Rigidbody2D rigidbody;
 
