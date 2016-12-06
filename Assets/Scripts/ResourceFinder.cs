@@ -24,12 +24,13 @@ public class ResourceFinder
         }
     }
 
-    private Dictionary<string, object> prefabCache;
+    private Dictionary<string, Object> prefabCache;
+    private Dictionary<string, Material> materialCache;
 
     //Instance the dictionary and fill the prefab cache
     private void Setup()
     {
-        prefabCache = new Dictionary<string, object>();
+        prefabCache = new Dictionary<string, Object>();
 
         Object[] baseRes = Resources.LoadAll("Prefabs");
         foreach(Object o in baseRes)
@@ -40,6 +41,18 @@ public class ResourceFinder
         }
 
         Debug.Log("@ResourceFinder Found " + prefabCache.Count + " prefabs");
+
+        materialCache = new Dictionary<string, Material>();
+
+        Material[] baseMat = Resources.LoadAll<Material>("Materials") as Material[];
+        foreach(Material m in baseMat)
+        {
+            string name = m.name;
+            Debug.Log("@ResourceFinder found Material \"" + name + "\" in prefab");
+            materialCache.Add(name, m);
+        }
+
+        Debug.Log("@ResourceFinder Found " + materialCache.Count + " materials");
     }
 
 
@@ -57,6 +70,22 @@ public class ResourceFinder
             }
         }
         Debug.Log("Prefab\"" + name + "\" not found!");
+        return null;
+    }
+
+    public Material GetMaterial(string name)
+    {
+        //Use dictionary enumerator search, it's faster than a for loop
+        var enumerator = materialCache.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            var pair = enumerator.Current;
+            if (name == pair.Key)
+            {
+                return pair.Value as Material;
+            }
+        }
+        Debug.Log("Material\"" + name + "\" not found!");
         return null;
     }
 }

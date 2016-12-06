@@ -43,11 +43,11 @@ public class ShipController : MonoBehaviour
         //rigidbody.AddTorque(thrust * angleTo * Time.deltaTime, ForceMode2D.Force);
     }
 
-    public void fireWeapon(Vector2 target)
+    public void fireWeapon()
     {
         if (wType == WeaponType.STOCK)
         {
-            stockWep.fireStaticWeapon(target,transform.position, transform.up);
+            stockWep.fireStaticWeapon(transform.position, transform.up);
         }
         else if (wType == WeaponType.SWIVEL)
         {

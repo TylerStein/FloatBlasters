@@ -97,15 +97,18 @@ public class StaticWeapon : Weapon
 
     public StaticWeapon(float cd, float dmg, float dmgF, float rang) : base(cd, dmg, dmgF, rang)
     {
-
+        laserMat = ResourceFinder.Instance.GetMaterial("Laser");
     }
-    public void fireStaticWeapon(Vector2 target, Vector2 playerpos, Vector2 forward)
+    public void fireStaticWeapon(Vector2 playerpos, Vector2 forward)
     {
         Vector3[] points = new Vector3[2];
         points[0] = playerpos;
         points[1] = playerpos + forward * range;
         RaycastHit2D laser;
-        LineRenderer sight = new LineRenderer();
+        GameObject laserObject = new GameObject();
+        LineRenderer sight = laserObject.AddComponent<LineRenderer>();
+
+
         laser = Physics2D.Raycast(playerpos,forward,range);
         
         if (laser.collider != null)
@@ -117,10 +120,13 @@ public class StaticWeapon : Weapon
                 alienShip.ship.takeImpact(forward.normalized * dmgForce,laser.point, damage);
             }
         }
+
         sight.SetPositions(points);
         sight.material = laserMat;
-        GameObject lzr = Object.Instantiate(sight, null) as GameObject;
-        GameObject.Destroy(lzr, 0.3f);
+        sight.SetWidth(0.25f, 0.25f);
+        sight.useWorldSpace = true;
+
+        GameObject.Destroy(laserObject, 0.1f);
     }
 }
 

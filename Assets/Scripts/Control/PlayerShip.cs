@@ -24,7 +24,7 @@ public class PlayerShip : MonoBehaviour {
     float cooldown = 0.2f;
     float damage = 5f;
     float dForce = 50f;
-    float range = 20f;
+    float range = 120f;
     float timer = 0;
     void Start () {
         //break apart force
@@ -92,7 +92,7 @@ public class PlayerShip : MonoBehaviour {
             if (timer >= cooldown)
             {
                 Debug.Log("Shoot triggered");
-                ship.fireWeapon(Vector2.zero);
+                ship.fireWeapon();
                 timer = 0;
             }  
         }
