@@ -73,10 +73,10 @@ public class Fueltank : ShipComponent
 public class Weapon : ShipComponent
 { 
     
-    protected float cooldown;
-    protected float damage;
-    protected float dmgForce;
-    protected float range;
+    public float cooldown;
+    public float damage;
+    public float dmgForce;
+    public float range;
     public Weapon(float cd, float dmg, float dmgF, float rang)
     {
         cooldown = cd;

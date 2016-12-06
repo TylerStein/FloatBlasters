@@ -127,25 +127,48 @@ public class ShipController : MonoBehaviour
         Debug.Log("Weapons Online.../ cooldown = " + cd + " damage = " + dmg + ", the knockback force is " + dmgF + " and the targeting systems range is" + rang);
         wType = WeaponType.STOCK;
     }
-    //creation methods
+    //upgrade methods
+    public void upgradePasser(int elvl, int tlvl, int hlvl, int wlvl, int rrng, ShipController s)
+    {
+        //call this through the player and supply it the players levels
+        PlanetColony pc = new PlanetColony();
+        Debug.Log("upgradePasser Called: ");
+        Debug.Log("Engine level = " + elvl);
+        Debug.Log("Thruster level = " + tlvl);
+        Debug.Log("Hull level = " + hlvl);
+        Debug.Log("Weapon level = " + wlvl);
+        pc.rewardPlayer(elvl, tlvl, hlvl, wlvl, rrng, s);
+    }
     public void updateFueltank(int upgradelevel)
     {
+        Debug.Log("updateFueltank Called");
         fuel.held = fuel.held + ((upgradelevel / 5) * fuel.held); //20% more fuel per upgrade level
         fuel.capacity = fuel.capacity + ((upgradelevel / 5) * fuel.capacity); //20% more fuel capacity per upgrade level
     }
 
     public void updateHull(int upgradelevel)
     {
+        Debug.Log("updateHull Called");
         hull.reduction = hull.reduction + ((upgradelevel / 5) * hull.reduction); //20% more damage resist per upgrade level
         hull.currHP = hull.currHP + ((upgradelevel / 5) * hull.currHP); //20% more health per upgrade level
         hull.maxHP = hull.maxHP + ((upgradelevel / 5) * hull.maxHP); //20% more health per upgrade level
     }
 
-    public void thrusterHull(int upgradelevel)
+    public void updateThruster(int upgradelevel)
     {
-        ////////////thrusters.fuelUse = thrusters.fuelUse + ((upgradelevel / 5) * thrusters.fuelUse); //20% less fule guzzled per upgrade level
+        Debug.Log("updateThruster Called");
+        thrusters.fuelUse = thrusters.fuelUse - ((upgradelevel / 5) * thrusters.fuelUse); //20% less fule guzzled per upgrade level
         thrusters.fwdThrust = thrusters.fwdThrust + ((upgradelevel / 5) * thrusters.fwdThrust); //20% more thrust per upgrade level
         thrusters.maxSpeed = thrusters.maxSpeed + ((upgradelevel / 5) * thrusters.maxSpeed); //20% speed cap per upgrade level
+    }
+
+    public void updateWeapon(int upgradelevel)
+    {
+        Debug.Log("updateWeapon Called");
+        stockWep.cooldown = stockWep.cooldown - ((upgradelevel / 5) * stockWep.cooldown); //reduce cooldown
+        stockWep.damage = stockWep.damage + ((upgradelevel / 5) * stockWep.damage); //increce damage
+        stockWep.dmgForce = stockWep.dmgForce + ((upgradelevel / 5) * stockWep.dmgForce); //increce damageforce;
+        stockWep.range = stockWep.range + ((upgradelevel / 5) * stockWep.range); //increce range
     }
 }
 

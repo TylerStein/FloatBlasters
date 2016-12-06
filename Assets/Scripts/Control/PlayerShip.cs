@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class PlayerShip : MonoBehaviour {
 
@@ -26,14 +29,26 @@ public class PlayerShip : MonoBehaviour {
     float dForce = 50f;
     float range = 120f;
     float timer = 0;
+
+    int thrusterLevel;
+    int engineLevel;
+    int hullLevel;
+    int wepLevel;
+
+    public Image healthbar;
+    public Image fuelbar;
     void Start () {
         //break apart force
+
         forceX = force.x;
         ship = gameObject.AddComponent<ShipController>();
         animator = GetComponent<Animator>();
         particles = GetComponentInChildren<ParticleSystem>();
         rigidbody = GetComponent<Rigidbody2D>();
-
+        thrusterLevel = 1;
+        engineLevel = 1;
+        hullLevel = 1;
+        wepLevel = 1;
         //create components for the playerShip
         ship.defaultFitting(fuelTotal, fuelCurrent, armor, totalHP, currentHP, fuelCost, forceX, maxSpeed);
         ship.weaponFitting(cooldown,damage,dForce,range);
@@ -41,6 +56,11 @@ public class PlayerShip : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        //ui stuff
+        //todo set the healthbar and fuel bar and display the level of the ships attributes
+        //healthbar.fillAmount = currentHP / 100;
+        //fuelbar.fillAmount = fuelCurrent / 100;
+        //aiDisplay.text = state.ToString(); //example code
         //Store the X and Y axis input
         float yInput = Input.GetAxis("Vertical");
         float xInput = Input.GetAxis("Horizontal");
@@ -86,7 +106,7 @@ public class PlayerShip : MonoBehaviour {
         }
         //ship.steerTowards(new Vector2(transform.position.x, transform.position.y) + new Vector2(xInput, yInput));
 
-        else if (Input.GetButton("Shoot"))
+        else if (Input.GetButtonDown("Shoot"))
         {
             timer += Time.deltaTime;
             if (timer >= cooldown)
@@ -94,7 +114,9 @@ public class PlayerShip : MonoBehaviour {
                 Debug.Log("Shoot triggered");
                 ship.fireWeapon();
                 timer = 0;
-            }  
+            }
+
+            //upgradeShip();
         }
     }
 
@@ -112,5 +134,30 @@ public class PlayerShip : MonoBehaviour {
     public Rigidbody2D getRigidbody()
     {
         return ship.getRigidbody();
+    }
+
+    //do a thing to upgrade the ship
+    public void upgradeShip()
+    {
+        int rng = Random.Range(0, 4);
+
+        if (rng == 0 )
+        {
+            engineLevel++;
+        }
+        else if (rng == 1)
+        {
+            hullLevel++;
+        }
+        else if (rng == 2)
+        {
+            thrusterLevel++;
+        }
+        else if (rng == 3)
+        {
+            wepLevel++;
+        }
+        Debug.Log("upgradeShip Called: RNG = " + rng);
+        ship.upgradePasser(engineLevel, thrusterLevel, hullLevel, wepLevel, rng, ship);
     }
 }
